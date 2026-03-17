@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Cat Rescue Center</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="app">
+    <h1>🐱 Cat Rescue Center</h1>
+
+    <section class="controls">
+      <form id="search-form">
+        <input
+          type="text"
+          id="search-input"
+          placeholder="Search cats by breed..."
+        />
+        <button type="submit">Search</button>
+      </form>
+
+      <div class="pagination">
+        <button id="prev-page">Prev</button>
+        <span id="page-info"></span>
+        <button id="next-page">Next</button>
+      </div>
+    </section>
+
+    <section>
+      <h2>Available Cats</h2>
+      <div id="cats-container" class="cats"></div>
+    </section>
+
+    <section>
+      <h2>Favorite Cats (Adoption List)</h2>
+      <div id="favorites-container" class="cats"></div>
+    </section>
+
+    <section id="message" class="message"></section>
+  </main>
+
+  <script type="module" src="main.js"></script>
+</body>
+</html>

@@ -57,7 +57,7 @@ The requirements listed here are **absolute minimums**. Ensure your application 
 
 | Requirement | Weight |
 |-------------|--------|
-| Use the **fetch API or Axios** to communicate with an external web API. Use the data to populate your application's content and features. | **20%** |
+| Use the **fetch API or Axios** to communicate with an external web API. Use the data towhere populate your application's content and features. | **20%** |
 | Create **user interaction** with the API through a search feature, paginated gallery, or similar. This should use **GET requests** to retrieve associated data. | **15%** |
 | Enable **user manipulation** of data within the API through **POST, PUT, or PATCH** requests. Ensure your chosen API supports this before beginning. | **15%** |
 | Make use of **Promises and `async`/`await` syntax** as appropriate. | **15%** |
