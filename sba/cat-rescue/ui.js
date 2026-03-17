@@ -1,53 +1,41 @@
 // ui.js
-export function renderCats(cats, container) {
-  container.innerHTML = "";
 
-  if (!cats.length) {
+// -----------------------------------------------------
+// Show a message (loading, errors, success)
+// -----------------------------------------------------
+export function showMessage(element, message, isError = false) {
+  element.textContent = message;
+  element.style.color = isError ? "red" : "black";
+}
+
+// -----------------------------------------------------
+// Update pagination text
+// -----------------------------------------------------
+export function updatePageInfo(currentPage, pageInfoElement) {
+  pageInfoElement.textContent = `Page ${currentPage}`;
+}
+
+// -----------------------------------------------------
+// Render cat cards into the Available Cats section
+// -----------------------------------------------------
+export function renderCats(cats, container) {
+  container.innerHTML = ""; // Clear old results
+
+  if (!cats || cats.length === 0) {
     container.innerHTML = "<p>No cats found.</p>";
     return;
   }
 
-  cats.forEach((cat) => {
-    const card = document.createElement("article");
-    card.className = "cat-card";
+  cats.forEach(cat => {
+    const card = document.createElement("div");
+    card.classList.add("cat-card");
 
     card.innerHTML = `
-      <h3>${escapeHtml(cat.title)}</h3>
-      <p>${escapeHtml(cat.body)}</p>
-      <div class="cat-actions">
-        <button data-id="${cat.id}" class="edit-btn">Edit</button>
-        <button data-id="${cat.id}" class="adopt-btn">Mark Adopted</button>
-      </div>
+      <img src="${cat.url}" alt="Cat Image" />
+      <h3>${cat.breeds?.[0]?.name || "Unknown Breed"}</h3>
+      <button class="select-btn" data-id="${cat.id}">Select</button>
     `;
 
     container.appendChild(card);
-  });
-}
-
-export function updatePageInfo(page, element) {
-  element.textContent = `Page ${page}`;
-}
-
-export function showMessage(messageElement, text, isError = false) {
-  messageElement.textContent = text;
-  messageElement.style.color = isError ? "red" : "green";
-}
-
-export function fillFormForEdit(formElements, cat) {
-  formElements.id.value = cat.id;
-  formElements.name.value = cat.title;
-  formElements.description.value = cat.body;
-}
-
-function escapeHtml(str) {
-  return str.replace(/[&<>"']/g, (c) => {
-    const map = {
-      "&": "&amp;",
-      "<": "&lt;",
-      ">": "&gt;",
-      '"': "&quot;",
-      "'": "&#039;",
-    };
-    return map[c];
   });
 }

@@ -1,61 +1,48 @@
 // api.js
-const API_KEY = "live_0uXib1jEJihjeqVqO2w9jRUsfd0RnHHDCG4NujOJAF4GipsiFRP21Hl7xgmeXGZx"; 
+const API_KEY = "live_5KKBzHHGBF5IwGF610vL5bRg9RFr4sLvB2iXDo4aNHuVFdlc8rgZNBhGAq8n6YUx";
 const BASE_URL = "https://api.thecatapi.com/v1";
 
-// GET cats with pagination
+// -----------------------------------------------------
+// Fetch cats with breed search + pagination
+// -----------------------------------------------------
 export async function fetchCats(page = 0, limit = 9, searchTerm = "") {
-  const url = `${BASE_URL}/images/search?limit=${limit}&page=${page}&order=ASC&has_breeds=1`;
+  // Step 1: Get all breeds
+  const breedRes = await fetch(`${BASE_URL}/breeds`, {
+    headers: { "x-api-key": API_KEY }
+  });
+
+  if (!breedRes.ok) {
+    throw new Error("Failed to load breed list");
+  }
+
+  const breeds = await breedRes.json();
+
+  // Step 2: Match user search to a breed ID
+  let breedId = "";
+  if (searchTerm.trim()) {
+    const match = breeds.find(b =>
+      b.name.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    breedId = match?.id || "";
+  }
+
+  // Step 3: Fetch cats using breed ID
+  const url = `${BASE_URL}/images/search?limit=${limit}&page=${page}&breed_ids=${breedId}&has_breeds=1`;
 
   const res = await fetch(url, {
     headers: { "x-api-key": API_KEY }
   });
 
-  if (!res.ok) throw new Error("Failed to fetch cats");
-  let data = await res.json();
-
-  // Filter by breed name if searching
-  if (searchTerm.trim()) {
-    const term = searchTerm.toLowerCase();
-    data = data.filter((cat) =>
-      cat.breeds[0]?.name.toLowerCase().includes(term)
-    );
+  if (!res.ok) {
+    throw new Error("Failed to fetch cats");
   }
 
-  return data;
-}
+  const data = await res.json();
 
-// POST: Add cat to favorites
-export async function favoriteCat(imageId) {
-  const res = await fetch(`${BASE_URL}/favourites`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "x-api-key": API_KEY
-    },
-    body: JSON.stringify({ image_id: imageId })
-  });
-
-  if (!res.ok) throw new Error("Failed to favorite cat");
-  return res.json();
-}
-
-// GET favorites
-export async function fetchFavorites() {
-  const res = await fetch(`${BASE_URL}/favourites`, {
-    headers: { "x-api-key": API_KEY }
-  });
-
-  if (!res.ok) throw new Error("Failed to load favorites");
-  return res.json();
-}
-
-// DELETE favorite (mark adopted)
-export async function adoptCat(favoriteId) {
-  const res = await fetch(`${BASE_URL}/favourites/${favoriteId}`, {
-    method: "DELETE",
-    headers: { "x-api-key": API_KEY }
-  });
-
-  if (!res.ok) throw new Error("Failed to mark adopted");
-  return true;
+  // Normalize structure for UI
+  return data.map(cat => ({
+    id: cat.id,
+    url: cat.url,
+    breeds: cat.breeds || []
+  }));
 }

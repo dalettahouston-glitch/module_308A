@@ -2,43 +2,50 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Cat Rescue Center</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="styles.css" />
+  <title>Cat Rescue Center</title>
+
+  <link rel="stylesheet" href="style.css" />
 </head>
+
 <body>
-  <main class="app">
+  <header class="header">
     <h1>🐱 Cat Rescue Center</h1>
+  </header>
 
-    <section class="controls">
-      <form id="search-form">
-        <input
-          type="text"
-          id="search-input"
-          placeholder="Search cats by breed..."
-        />
-        <button type="submit">Search</button>
-      </form>
+  <!-- Search Section -->
+  <section class="search-section">
+    <form id="search-form">
+      <input
+        type="text"
+        id="search-input"
+        placeholder="Search cats by breed..."
+      />
+      <button type="submit">Search</button>
+    </form>
+  </section>
 
-      <div class="pagination">
-        <button id="prev-page">Prev</button>
-        <span id="page-info"></span>
-        <button id="next-page">Next</button>
-      </div>
-    </section>
+  <!-- Pagination Controls -->
+  <section class="pagination">
+    <button id="prev-page">Prev</button>
+    <span id="page-info">Page 1</span>
+    <button id="next-page">Next</button>
+  </section>
 
-    <section>
-      <h2>Available Cats</h2>
-      <div id="cats-container" class="cats"></div>
-    </section>
+  <!-- Message Area -->
+  <p id="message" class="message"></p>
 
-    <section>
-      <h2>Favorite Cats (Adoption List)</h2>
-      <div id="favorites-container" class="cats"></div>
-    </section>
+  <!-- Available Cats -->
+  <section>
+    <h2>Available Cats</h2>
+    <div id="cats-container" class="cats-grid"></div>
+  </section>
 
-    <section id="message" class="message"></section>
-  </main>
+  <!-- Favorite Cats -->
+  <section>
+    <h2>Favorite Cats (Adoption List)</h2>
+    <div id="favorites-container" class="favorites-grid"></div>
+  </section>
 
   <script type="module" src="main.js"></script>
 </body>
